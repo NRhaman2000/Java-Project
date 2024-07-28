@@ -1,0 +1,39 @@
+import org.firmata4j. ssd1306. SSD1306;
+import org. firmata4j.ssd1306. MonochromeCanvas;
+public class animationonOLED {
+    public static void Cartoon(SSD1306 Oled) {
+        Oled.clear();
+        Oled.getCanvas().drawCircle(70, 20, 7);
+        Oled.getCanvas().fillCircle(70, 15, 9, MonochromeCanvas.Color.DARK);
+        Oled.getCanvas().drawCircle(60, 10, 7, MonochromeCanvas.Color.BRIGHT);
+        Oled.getCanvas().drawCircle(80,10, 7, MonochromeCanvas.Color.BRIGHT);
+        Oled.getCanvas().fillCircle(80, 10, 6, MonochromeCanvas.Color.BRIGHT);
+        Oled.getCanvas().fillCircle(80, 10, 4, MonochromeCanvas.Color.DARK);
+        Oled.getCanvas().fillCircle(60, 10, 6, MonochromeCanvas.Color.BRIGHT);
+        Oled.getCanvas().fillCircle(60, 10, 4, MonochromeCanvas.Color.DARK);
+
+        Oled.display();
+    }
+    public static void SadCartoon(SSD1306 Oled) {
+        Oled.clear();
+        Oled.getCanvas().drawLine(50, 35, 65, 25);
+        Oled.getCanvas().drawCircle(55, 18, 7, MonochromeCanvas.Color.BRIGHT);
+        Oled.getCanvas().drawLine(65, 26, 80, 35);
+        Oled.getCanvas().drawCircle(75, 18, 7, MonochromeCanvas.Color.BRIGHT);
+        Oled.getCanvas().drawLine(50, 34, 65, 25);
+        Oled.getCanvas().fillCircle(75, 18, 6, MonochromeCanvas.Color.BRIGHT);
+        Oled.getCanvas().drawLine(65, 26, 80, 34);
+        Oled.getCanvas().fillCircle(75, 18, 4, MonochromeCanvas.Color.DARK);
+        Oled.getCanvas().fillCircle(55, 18, 6, MonochromeCanvas.Color.BRIGHT);
+        Oled.getCanvas().fillCircle(55, 18, 4, MonochromeCanvas.Color.DARK);
+        Oled.display();
+    }
+
+
+    public static void PanicCartoon(SSD1306 Oled) {
+        Oled.clear();
+        Oled.getCanvas().drawCircle(60, 30, 5, MonochromeCanvas.Color.BRIGHT);
+
+
+    }
+}
