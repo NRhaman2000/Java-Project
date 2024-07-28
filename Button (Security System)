@@ -1,0 +1,100 @@
+import org.firmata4j.IODeviceEventListener;
+import org.firmata4j.IOEvent;
+import org.firmata4j.Pin;
+import org.firmata4j.ssd1306.SSD1306;
+import java.io.IOException;
+import javax.swing.JFrame;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import jm.JMC;
+import jm.music.data.Note;
+import jm.util.Play;
+class Button implements IODeviceEventListener {
+    private final Pin sound;
+    private final Pin LED;
+    private final Pin Buzzer;
+    private final Pin ButtonPin;
+    private final SSD1306 Oled;
+    private boolean systemRunning = false;
+
+
+    public Button(Pin sound, Pin LED, Pin buzzer, Pin ButtonPin, SSD1306 Oled) {
+        this.sound = sound;
+        this.LED = LED;
+        this.Buzzer=buzzer;
+        this.ButtonPin = ButtonPin;
+        this.Oled = Oled;
+    }
+    @Override
+    public void onPinChange(IOEvent event) {
+        try {
+            int buttonState = (int) ButtonPin.getValue();
+            int soundLevel = (int) sound.getValue();
+            int threshold = 800;
+            if (buttonState == 0 && !systemRunning && soundLevel > threshold) {
+                systemRunning = true;
+                LED.setValue(1);
+                Buzzer.setValue(40);
+                Oled.init();
+                Play.midi (new Note (JMC. BF4, JMC. QN, JMC. BF5, JMC. QN) );
+                Play.midi (new Note (JMC. BF4, JMC. QN, JMC. BF5, JMC. QN) );
+                Play.midi (new Note (JMC. BF4, JMC. QN, JMC. BF5, JMC. QN) );
+                Play.midi (new Note (JMC. BF4, JMC. QN, JMC. BF5, JMC. QN) );
+                        Oled.getCanvas().clear();
+                        animationonOLED.SadCartoon (Oled);
+                        Oled.getCanvas().drawString(0,40,"Security Alert.      Be Careful.");
+                        Oled.display();
+                        Thread.sleep(5000);
+                        animationonOLED.SadCartoon (Oled);
+                        Oled.display();
+                        Thread.sleep(3000);
+                        System.out.println("Security Alert");
+                Play.midi (new Note (JMC. BF4, JMC. QN, JMC. BF5, JMC. QN) );
+                Play.midi (new Note (JMC. BF4, JMC. QN, JMC. BF5, JMC. QN) );
+                Play.midi (new Note (JMC. BF4, JMC. QN, JMC. BF5, JMC. QN) );
+                Play.midi (new Note (JMC. BF4, JMC. QN, JMC. BF5, JMC. QN) );
+                        var frame = new JFrame();
+                        var icon = new ImageIcon("intruder-alert-gi-joe-a-real-american-hero.gif");
+                Play.midi (new Note (JMC. BF4, JMC. QN, JMC. BF5, JMC. QN) );
+                Play.midi (new Note (JMC. BF4, JMC. QN, JMC. BF5, JMC. QN) );
+                Play.midi (new Note (JMC. BF4, JMC. QN, JMC. BF5, JMC. QN) );
+                Play.midi (new Note (JMC. BF4, JMC. QN, JMC. BF5, JMC. QN) );
+                        var label = new JLabel(icon);
+                        frame.add(label);
+                        frame.setDefaultCloseOperation
+                                (JFrame.EXIT_ON_CLOSE);
+                        frame.pack();
+                        frame.setVisible(true);
+//                        Thread.sleep(5000);
+                Play.midi (new Note (JMC. BF4, JMC. QN, JMC. BF5, JMC. QN) );
+                Play.midi (new Note (JMC. BF4, JMC. QN, JMC. BF5, JMC. QN) );
+                Play.midi (new Note (JMC. BF4, JMC. QN, JMC. BF5, JMC. QN) );
+                Play.midi (new Note (JMC. BF4, JMC. QN, JMC. BF5, JMC. QN) );
+
+                // Other actions like OLED display
+
+            } else if (buttonState == 1 && systemRunning) {
+                systemRunning = false;
+                LED.setValue(0);
+                Buzzer.setValue(0);
+                Oled.init();
+                Oled.getCanvas().clear();
+                animationonOLED.Cartoon (Oled);
+                Oled.getCanvas().drawString(0,40,"Be Careful and       Have a Good Night.");
+                Oled.display();
+                Thread.sleep(5000);
+                System.exit(1);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    @Override
+    public void onStart(IOEvent event) {}
+    @Override
+    public void onStop(IOEvent event) {}
+    @Override
+    public void onMessageReceive(IOEvent event, String message){}
+}
