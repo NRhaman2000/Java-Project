@@ -1,0 +1,43 @@
+import org.firmata4j.*;
+import org.firmata4j.firmata.FirmataDevice;
+import org.firmata4j.ssd1306.SSD1306;
+import java.io.IOException;
+import org.firmata4j.Pin;
+
+public class soundsensor {
+    public static void main(String[] args) throws IOException{
+        IODevice myGroveBoard = new FirmataDevice("/dev/cu.usbserial-0001");
+        final int A0 = 14; // Potentiometer
+        final int A2 = 16; // Sound
+        int D6 = 6; // Button
+        final int D4 = 4;
+        int A6 = 20; // red LED
+        final int D5= 5;
+        final int D13 = 13; // default LED on arduino
+        final byte I2C0 = 0x3C; // OLED Display
+        try {
+            myGroveBoard.start();
+            System.out.println("Board started.");
+            myGroveBoard.ensureInitializationIsDone();
+        } catch (Exception ex) {
+            System.out.println("Couldn't connect to board.");
+        } finally {
+            var sound = myGroveBoard.getPin(A2);
+            sound.setMode(Pin.Mode.ANALOG);
+            var LED = myGroveBoard.getPin(D4);
+            LED.setMode(Pin.Mode.OUTPUT);
+            var buzzer = myGroveBoard.getPin(D5);
+            buzzer.setMode(Pin.Mode.OUTPUT);
+            var buttonpin = myGroveBoard.getPin(D6);
+            buttonpin.setMode(Pin.Mode.INPUT);
+
+            I2CDevice i2cObject = myGroveBoard.getI2CDevice(I2C0);
+            SSD1306 theOledObject = new SSD1306(i2cObject, SSD1306.Size.SSD1306_128_64);
+            sound.setValue(0);
+            theOledObject.init();
+            theOledObject.getCanvas().clear();
+            theOledObject.getCanvas().setTextsize(1);
+            myGroveBoard.addEventListener(new Button(sound,LED,buzzer,buttonpin,theOledObject));
+        }
+    }
+}
